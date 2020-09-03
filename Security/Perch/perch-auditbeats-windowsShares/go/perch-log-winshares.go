@@ -17,7 +17,7 @@ func main() {
 	fmt.Println("Checking posh @ " + poshExe)
 	if isPowerShellInstalled(poshExe) == false {
 		installPowerShellPortable(PoshInstallDir)
-		fmt.Println("Installed Powershell Portable")
+		//fmt.Println("Installed Powershell Portable")
 		if isPowerShellInstalled(poshExe) == false {
 			fmt.Println("ERROR: Powershell still not working")
 		}
@@ -44,14 +44,14 @@ func installPowerShellPortable(installDir string) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Downloaded: " + fileUrl)
+	//fmt.Println("Downloaded: " + fileUrl)
 	instPath := ("\"" + installDir + "\"")
 	poshCmd := `.\install-powershell.ps1 -Destination ` + instPath
-	fmt.Println("Installing pwsh to", installDir)
-	fmt.Println(poshCmd)
+	//fmt.Println("Installing pwsh to", installDir)
+	//fmt.Println(poshCmd)
 	poshOutput := exec.Command("powershell.exe", "/C", poshCmd)
 	if err := poshOutput.Run(); err != nil {
-		fmt.Println("Error: Failed to execute system-level powershell", err)
+		fmt.Println("Error: Failed to execute system-level powershell. System is likely too far out of date.", err)
 	}
 
 }
