@@ -1,3 +1,6 @@
+// Initial publish 2020-09-02
+// Tim Fournet tfournet@radersolutions.com
+
 package main
 
 import (
