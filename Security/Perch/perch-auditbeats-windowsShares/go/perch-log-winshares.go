@@ -12,14 +12,17 @@ import (
 )
 
 func main() {
-	PoshInstallDir := (os.Getenv("PROGRAMFILES") + "\\pwsh")
-	poshExe := PoshInstallDir + "\\pwsh.exe"
-	fmt.Println("Checking posh @ " + poshExe)
+	poshExe := "pwsh.exe"
 	if isPowerShellInstalled(poshExe) == false {
-		installPowerShellPortable(PoshInstallDir)
-		//fmt.Println("Installed Powershell Portable")
+		PoshInstallDir := (os.Getenv("PROGRAMFILES") + "\\pwsh")
+		poshExe = PoshInstallDir + "\\pwsh.exe"
+		fmt.Println("Checking posh @ " + poshExe)
 		if isPowerShellInstalled(poshExe) == false {
-			fmt.Println("ERROR: Powershell still not working")
+			installPowerShellPortable(PoshInstallDir)
+			//fmt.Println("Installed Powershell Portable")
+			if isPowerShellInstalled(poshExe) == false {
+				fmt.Println("ERROR: Powershell still not working. Try installing it manually from https://aka.ms/getpowershell")
+			}
 		}
 	}
 
