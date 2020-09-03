@@ -25,7 +25,10 @@ func main() {
 
 	beatScript := ".\\Add-FileSharesToAuditbeat.ps1"
 	poshUrl := "https://raw.githubusercontent.com/RaderSolutions/rmmscripts_public/master/Security/Perch/perch-auditbeats-windowsShares/pwsh/Add-FileSharesToAuditbeat.ps1"
-	err := DownloadFile("install-powershell.ps1", poshUrl)
+	err := DownloadFile(beatScript, poshUrl)
+	if err != nil {
+		panic(err)
+	}
 
 	beatOutput := exec.Command(poshExe, "/C", beatScript)
 	if err := beatOutput.Run(); err != nil {
