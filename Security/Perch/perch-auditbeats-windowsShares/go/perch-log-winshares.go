@@ -6,6 +6,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -37,6 +38,10 @@ func main() {
 	if err := beatOutput.Run(); err != nil {
 		fmt.Println("Error: Failed to execute beats config script", err)
 	}
+	cleanup := os.Remove(beatScript)
+	if cleanup != nil {
+		log.Fatal(cleanup)
+	}
 
 }
 
@@ -55,6 +60,10 @@ func installPowerShellPortable(installDir string) {
 	poshOutput := exec.Command("powershell.exe", "/C", poshCmd)
 	if err := poshOutput.Run(); err != nil {
 		fmt.Println("Error: Failed to execute system-level powershell. System is likely too far out of date.", err)
+	}
+	cleanup := os.Remove("install-powershell.ps1")
+	if cleanup != nil {
+		log.Fatal(cleanup)
 	}
 
 }
