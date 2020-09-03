@@ -6,4 +6,4 @@ The heavy lifting is done by a PowerShell script. This script enumerates the any
 
 My goal is to try to make this as compatible as possible with older versions of Windows Server, hence the out-of-band installs of PowerShell into a non-standard directory. 
 
-The golang wrapper is just to be able to send a single executable over in an effort to simplify RMM-style scripting down to basically one-liners. 
+The golang wrapper is just to be able to send a single executable over in an effort to simplify in-RMM scripting down to basically one-liners. 
