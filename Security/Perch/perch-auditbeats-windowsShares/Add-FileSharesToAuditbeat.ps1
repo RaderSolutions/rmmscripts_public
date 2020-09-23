@@ -25,8 +25,10 @@ $winShares | ForEach-Object {
 
 $beatsYaml.'auditbeat.modules'[$index].Add("recursive",$true)
 
+# Write content to config file and restart beats service
+$fileContent=($beatsYaml | ConvertTo-Yaml)
 Stop-Service $beatsSvc
-$beatsYaml | ConvertTo-Yaml | Out-File -FilePath $beatsFile
+Set-Content -FilePath $beatsFile -Value $fileContent
 Start-Service $beatsSvc
 
  
