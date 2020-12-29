@@ -9,4 +9,4 @@ dlPath="$tempDir\mbts.zip"
 
 Expand-Archive -Path $destPth -DestinationPath $tempDir
 
-Start-Process -FilePath $tempDir\
+Start-Process -FilePath $tempDir\MBTSLauncher.exe
