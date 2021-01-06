@@ -1,7 +1,5 @@
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-
-Install-Module -Name AZSBTools
-Install-Module -Name Powershell-Yaml
+Install-Module -Name AZSBTools -Force
+Install-Module -Name Powershell-Yaml -Force
 Import-Module AZSBTools 
 
 $beatsSvc = "perch-auditbeat"
