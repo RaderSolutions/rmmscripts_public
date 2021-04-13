@@ -7,7 +7,7 @@ param (
     [Parameter(Mandatory = $false)][bool]$ShowIndex = $False 
 )
 
-
+Install-PackageProvider -Name NuGet -Force
 Install-Module -Name Powershell-Yaml -Force
 
 $index=-1
