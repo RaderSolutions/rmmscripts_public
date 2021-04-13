@@ -7,9 +7,7 @@ param (
 )
 
 
-Install-Module -Name AZSBTools -Force
 Install-Module -Name Powershell-Yaml -Force
-Import-Module AZSBTools 
 
 
 $beatsSvc = "perch-auditbeat"
