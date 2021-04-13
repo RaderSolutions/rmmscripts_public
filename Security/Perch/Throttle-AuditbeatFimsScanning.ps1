@@ -4,13 +4,13 @@
 param (
     [Parameter(Mandatory = $false)][Int][ValidateRange(0,100)]$MaxFileSizeMB = 10,
     [Parameter(Mandatory = $false)][Int][ValidateRange(0,100)]$ScanMBPerSecond = 20,
-    [Parameter(Mandatory = $false)][bool]$ShowIndex = $True
+    [Parameter(Mandatory = $false)][bool]$ShowIndex = $False 
 )
 
 
 Install-Module -Name Powershell-Yaml -Force
 
-$index=0
+$index=-1
 
 $beatsSvc = "perch-auditbeat"
 $beatsFile = "C:\Program Files\Perch\configs\auditbeat.yml"
@@ -20,7 +20,7 @@ $beatsYaml = Get-Content -Path $beatsFile | ConvertFrom-Yaml
 $moduleCount = ($beatsYaml.'auditbeat.modules'.count)
 $i=0
 Do {
-    if ($beatsYaml.'auditbeat.modules'[$i].module -eq "file_integrity") { $index=$i }
+    If ($beatsYaml.'auditbeat.modules'[$i].module -eq "file_integrity") { $index=$i }
     $i++
 } While ($i -le $moduleCount)
 
