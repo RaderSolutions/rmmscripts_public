@@ -24,7 +24,7 @@ Do {
     $i++
 } While ($i -le $moduleCount)
 
-If ($ShowIndex) {
+If ($ShowIndex -eq $true) {
 "FIMS Index is $index"
 }
 
