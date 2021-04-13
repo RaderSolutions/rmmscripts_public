@@ -1,14 +1,20 @@
+# See https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-reference-yml.html for reference
+# Last updated 2021-04-13 by Tim Fournet 
+
+param (
+    [Parameter(Mandatory = $false)][Int][ValidateRange(0,100)]$MaxFileSizeMB = 10,
+    [Parameter(Mandatory = $false)][Int][ValidateRange(0,100)]$ScanMBPerSecond = 20
+)
+
+
 Install-Module -Name AZSBTools -Force
 Install-Module -Name Powershell-Yaml -Force
 Import-Module AZSBTools 
 
+
 $beatsSvc = "perch-auditbeat"
 $beatsFile = "C:\Program Files\Perch\configs\auditbeat.yml"
 $beatsYaml = Get-Content -Path $beatsFile | ConvertFrom-Yaml
-
-# Get SMB File Shares and format into the format auditbeats.yml likes
-$winShares = (Get-SmbShare | Where-Object Special -eq $false |Select-Object -Unique Path).Path
-$winShares = $winShares -replace "\\", "/"
 
 # Find the index of the FIMS module in Auditbeat
 $moduleCount = ($beatsYaml.'auditbeat.modules'.count)
@@ -18,13 +24,9 @@ Do {
     $i++
 } While ($i -le $moduleCount)
 
-# Adds each file share to the list
-$winShares | ForEach-Object {
-    if ($beatsYaml.'auditbeat.modules'[$index].paths -notcontains $_) {
-        $beatsYaml.'auditbeat.modules'[$index].paths.Add($_)
-    }
-}
-$beatsYaml.'auditbeat.modules'[$index].Add("recursive",$true)
+
+$beatsYaml.'auditbeat.modules'[$index].Add("max_file_size",$MaxFileSizeMB)
+$beatsYaml.'auditbeat.modules'[$index].Add("scan_rate_per_sec",$ScanMBPerSecond)
 
 # Rewrite the file and restart
 Stop-Service $beatsSvc
