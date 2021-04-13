@@ -9,6 +9,7 @@ param (
 
 Install-Module -Name Powershell-Yaml -Force
 
+$index=0
 
 $beatsSvc = "perch-auditbeat"
 $beatsFile = "C:\Program Files\Perch\configs\auditbeat.yml"
@@ -22,6 +23,7 @@ Do {
     $i++
 } While ($i -le $moduleCount)
 
+"FIMS Index is $index"
 
 $beatsYaml.'auditbeat.modules'[$index].Add("max_file_size",$MaxFileSizeMB)
 $beatsYaml.'auditbeat.modules'[$index].Add("scan_rate_per_sec",$ScanMBPerSecond)
