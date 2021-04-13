@@ -3,7 +3,8 @@
 
 param (
     [Parameter(Mandatory = $false)][Int][ValidateRange(0,100)]$MaxFileSizeMB = 10,
-    [Parameter(Mandatory = $false)][Int][ValidateRange(0,100)]$ScanMBPerSecond = 20
+    [Parameter(Mandatory = $false)][Int][ValidateRange(0,100)]$ScanMBPerSecond = 20,
+    [Parameter(Mandatory = $false)][bool]$ShowIndex = $True
 )
 
 
@@ -23,7 +24,9 @@ Do {
     $i++
 } While ($i -le $moduleCount)
 
+If ($ShowIndex) {
 "FIMS Index is $index"
+}
 
 $beatsYaml.'auditbeat.modules'[$index].Add("max_file_size",$MaxFileSizeMB)
 $beatsYaml.'auditbeat.modules'[$index].Add("scan_rate_per_sec",$ScanMBPerSecond)
