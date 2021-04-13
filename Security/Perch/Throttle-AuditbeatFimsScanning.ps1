@@ -28,6 +28,8 @@ If ($ShowIndex) {
 "FIMS Index is $index"
 }
 
+$beatsYaml.'auditbeat.modules'[$index].Remove("max_file_size")
+$beatsYaml.'auditbeat.modules'[$index].Remove("scan_rate_per_sec")
 $beatsYaml.'auditbeat.modules'[$index].Add("max_file_size",$MaxFileSizeMB)
 $beatsYaml.'auditbeat.modules'[$index].Add("scan_rate_per_sec",$ScanMBPerSecond)
 
