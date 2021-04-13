@@ -28,14 +28,28 @@ If ($ShowIndex -eq $true) {
 "FIMS Index is $index"
 }
 
-$beatsYaml.'auditbeat.modules'[$index].Remove("max_file_size")
-$beatsYaml.'auditbeat.modules'[$index].Remove("scan_rate_per_sec")
-$beatsYaml.'auditbeat.modules'[$index].Add("max_file_size",$MaxFileSizeMB)
-$beatsYaml.'auditbeat.modules'[$index].Add("scan_rate_per_sec",$ScanMBPerSecond)
+$file_write = 0 
+
+If ($beatsYaml.'auditbeat.modules'[$index].scan_rate_per_sec -ne $ScanMBPerSecond) {
+    $beatsYaml.'auditbeat.modules'[$index].Remove("scan_rate_per_sec")
+    $beatsYaml.'auditbeat.modules'[$index].Add("scan_rate_per_sec",$ScanMBPerSecond)
+    $file_write = 1
+}
+
+if ($beatsYaml.'auditbeat.modules'[$index].max_file_size -ne $ScanMBPerSecond) {
+    $beatsYaml.'auditbeat.modules'[$index].Remove("max_file_size")
+    $beatsYaml.'auditbeat.modules'[$index].Add("max_file_size",$MaxFileSizeMB)
+    $file_write = 1
+}
+
 
 # Rewrite the file and restart
-Stop-Service $beatsSvc
-$beatsYaml | ConvertTo-Yaml | Out-File -FilePath $beatsFile
-Start-Service $beatsSvc
+if ($file_write -eq 1) {
+    Stop-Service $beatsSvc
+    $beatsYaml | ConvertTo-Yaml | Out-File -FilePath $beatsFile
+    Start-Service $beatsSvc
+}
+
+
 
  

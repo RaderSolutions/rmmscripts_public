@@ -18,17 +18,19 @@ Do {
     $i++
 } While ($i -le $moduleCount)
 
+$file_write = 0 
 # Adds each file share to the list
 $winShares | ForEach-Object {
     if ($beatsYaml.'auditbeat.modules'[$index].paths -notcontains $_) {
         $beatsYaml.'auditbeat.modules'[$index].paths.Add($_)
+        $file_write = 1
     }
 }
 $beatsYaml.'auditbeat.modules'[$index].Add("recursive",$true)
 
 # Rewrite the file and restart
-Stop-Service $beatsSvc
-$beatsYaml | ConvertTo-Yaml | Out-File -FilePath $beatsFile
-Start-Service $beatsSvc
-
- 
+if ($file_write -eq 1) {
+    Stop-Service $beatsSvc
+    $beatsYaml | ConvertTo-Yaml | Out-File -FilePath $beatsFile
+    Start-Service $beatsSvc
+}
